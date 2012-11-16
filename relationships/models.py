@@ -7,6 +7,10 @@ from django.db.models.fields.related import create_many_related_manager, ManyToM
 from django.utils.translation import ugettext_lazy as _
 
 
+RELATIONSHIPS_SITE_ID = getattr(settings, 'RELATIONSHIPS_SITE_ID',
+                                settings.SITE_ID)
+
+
 class RelationshipStatusManager(models.Manager):
     # convenience methods to handle some default statuses
     def following(self):
