@@ -37,13 +37,13 @@ class BaseRelationshipsTestCase(TestCase):
         self.following = RelationshipStatus.objects.get(from_slug='following')
         self.blocking = RelationshipStatus.objects.get(from_slug='blocking')
         
-        self.site_id = settings.SITE_ID
-        settings.SITE_ID = 1
+        self.site_id = settings.RELATIONSHIPS_SITE_ID
+        settings.RELATIONSHIPS_SITE_ID = 1
         
         self.site = Site.objects.get_current()
     
     def tearDown(self):
-        settings.SITE_ID = self.site_id
+        settings.RELATIONSHIPS_SITE_ID = self.site_id
 
     def _sort_by_pk(self, list_or_qs):
         annotated = [(item.pk, item) for item in list_or_qs]

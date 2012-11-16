@@ -56,7 +56,7 @@ class Relationship(models.Model):
     status = models.ForeignKey(RelationshipStatus, verbose_name=_('status'))
     created = models.DateTimeField(_('created'), auto_now_add=True)
     weight = models.FloatField(_('weight'), default=1.0, blank=True, null=True)
-    site = models.ForeignKey(Site, default=settings.SITE_ID,
+    site = models.ForeignKey(Site, default=settings.RELATIONSHIPS_SITE_ID,
         verbose_name=_('site'), related_name='relationships')
 
     class Meta:
@@ -119,7 +119,7 @@ class RelationshipManager(User._default_manager.__class__):
             from_user=self.instance, 
             to_user=user,
             status=status,
-            site__pk=settings.SITE_ID
+            site__pk=settings.RELATIONSHIPS_SITE_ID
         ).delete()
         
         if symmetrical:
@@ -131,14 +131,14 @@ class RelationshipManager(User._default_manager.__class__):
         return dict(
             to_users__from_user=self.instance,
             to_users__status=status,
-            to_users__site__pk=settings.SITE_ID,
+            to_users__site__pk=settings.RELATIONSHIPS_SITE_ID,
         )
     
     def _get_to_query(self, status):
         return dict(
             from_users__to_user=self.instance,
             from_users__status=status,
-            from_users__site__pk=settings.SITE_ID
+            from_users__site__pk=settings.RELATIONSHIPS_SITE_ID
         )
     
     def get_relationships(self, status, symmetrical=False):
@@ -186,7 +186,7 @@ class RelationshipManager(User._default_manager.__class__):
         query = dict(
             to_users__from_user=self.instance,
             to_users__to_user=user,
-            to_users__site__pk=settings.SITE_ID,
+            to_users__site__pk=settings.RELATIONSHIPS_SITE_ID,
         )
         
         if status:
@@ -196,7 +196,7 @@ class RelationshipManager(User._default_manager.__class__):
             query.update(
                 from_users__to_user=self.instance,
                 from_users__from_user=user,
-                from_users__site__pk=settings.SITE_ID
+                from_users__site__pk=settings.RELATIONSHIPS_SITE_ID
             )
             
             if status:

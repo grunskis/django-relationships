@@ -27,6 +27,7 @@ if not settings.configured:
     settings.configure(
         DATABASES=dict(default=dict(ENGINE=db_engine, NAME=db_name)),
         SITE_ID = 1,
+        RELATIONSHIPS_SITE_ID = 1,
         TEMPLATE_LOADERS = tl,
         MIDDLEWARE_CLASSES = (
             'django.middleware.common.CommonMiddleware',
