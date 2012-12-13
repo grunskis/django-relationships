@@ -62,6 +62,8 @@ class Relationship(models.Model):
     weight = models.FloatField(_('weight'), default=1.0, blank=True, null=True)
     site = models.ForeignKey(Site, default=RELATIONSHIPS_SITE_ID,
         verbose_name=_('site'), related_name='relationships')
+    last_contacted_at = models.DateTimeField(blank=True, null=True,
+                                             db_index=True)
 
     class Meta:
         unique_together = (('from_user', 'to_user', 'status', 'site'),)
