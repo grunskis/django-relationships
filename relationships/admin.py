@@ -8,8 +8,18 @@ from relationships.models import Relationship, RelationshipStatus
 class RelationshipInline(admin.TabularInline):
     model = Relationship
     raw_id_fields = ('from_user', 'to_user')
-    extra = 1
     fk_name = 'from_user'
+    readonly_fields = ('to_user', 'status', 'last_contacted_at')
+    exclude = ('weight', 'site')
+
+    def queryset(self, request):
+        qs = super(RelationshipInline, self).queryset(request)
+        qs = qs.select_related('from_user', 'to_user', 'status')
+        return qs
+
+    def has_add_permission(self, request):
+        return False
+
 
 class UserRelationshipAdmin(UserAdmin):
     inlines = (RelationshipInline,)
